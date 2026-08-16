@@ -1,13 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-資料源探測：外匯（題 6 用）
-路徑 (a)：Yahoo chart 端點（TWD=X／JPY=X／KRW=X），抓近一年日資料。
-路徑 (b)：台灣銀行牌告匯率歷史 CSV（rate.bot.com.tw）。
+資料源探測：新台幣匯率與美元指數（公開資料源）
 
-實測結果：路徑 (b) 目前會被台灣銀行網站的機器人偵測攔下（回傳一個
-"Challenge Validation" 頁面、內含 JS/加密挑戰，需要瀏覽器執行 JS 才能過關）。
-依規範不嘗試繞過機器人偵測／CAPTCHA，因此本腳本只示範偵測到的攔截情形，
-不做進一步嘗試；正式資料改用路徑 (a) Yahoo chart 端點。
+用途：課程的外匯與指數題目走群益 CTA 平台，但 CTA 沒有新台幣貨幣對、
+也沒有美元指數。要看這兩個，就用這支腳本抓公開資料源。
+
+抓什麼（皆為 Yahoo chart 端點，2026-08-17 實測可用）：
+  TWD=X     美元兌新台幣（近一年 263 筆）
+  ^NYICDX   ICE 美元指數（近一年 251 筆，無空值，優先用這個代號）
+  JPY=X     美元兌日圓（對照用）
+  KRW=X     美元兌韓元（對照用）
+
+已知的坑：
+  1. Yahoo 只給中價，沒有買入／賣出雙向報價——報告要寫明用的是中價。
+  2. 這是非官方端點，格式可能隨時被改，不要假設永遠可用。
+  3. 最後一筆常是「當下即時快照」而非完整交易日，畫圖前先判斷要不要剔除。
+  4. 美元指數另有代號 DX-Y.NYB，指的是同一個指數，但實測有 52 個空值，
+     所以優先用 ^NYICDX。
+  5. 台灣銀行牌告匯率（rate.bot.com.tw）會被機器人偵測攔下，需要瀏覽器執行
+     JavaScript 才能通過，本課程不繞過這類保護，因此不列為可用路徑。
 
 用法：python -X utf8 probe-fx.py
 """
@@ -30,9 +41,10 @@ BACKUP_DIR = OUT_DIR / "output"
 BACKUP_DIR.mkdir(parents=True, exist_ok=True)
 
 SYMBOLS = {
-    "TWD=X": "USD/TWD",
-    "JPY=X": "USD/JPY",
-    "KRW=X": "USD/KRW",
+    "TWD=X": "USD/TWD 美元兌新台幣",
+    "^NYICDX": "ICE 美元指數",
+    "JPY=X": "USD/JPY 美元兌日圓",
+    "KRW=X": "USD/KRW 美元兌韓元",
 }
 
 
@@ -82,7 +94,7 @@ def probe_yahoo(symbol: str, name: str):
             }
         )
 
-    sample_path = BACKUP_DIR / f"sample-fx-yahoo-{symbol.replace('=', '')}.csv"
+    sample_path = BACKUP_DIR / f"sample-fx-yahoo-{symbol.replace('=', '').replace('^', '')}.csv"
     with open(sample_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=["date_utc", "timestamp", "open", "high", "low", "close"])
         writer.writeheader()
@@ -90,7 +102,7 @@ def probe_yahoo(symbol: str, name: str):
             writer.writerow(row)
     print(f"樣本已存：{sample_path}")
 
-    backup_path = BACKUP_DIR / f"fx-yahoo-{symbol.replace('=', '')}-{datetime.now():%Y-%m-%d}.csv"
+    backup_path = BACKUP_DIR / f"fx-yahoo-{symbol.replace('=', '').replace('^', '')}-{datetime.now():%Y-%m-%d}.csv"
     with open(backup_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=["date_utc", "timestamp", "open", "high", "low", "close"])
         writer.writeheader()
