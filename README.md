@@ -31,6 +31,7 @@
 | [`templates/`](templates/) | `PLAN.md`／`TASK.md`／`MEMORY.md` 三個範本，複製就能用 |
 | [`reference/`](reference/) | 資料源速查（含各家的坑）、EvoCode 速查、結論報告格式、四判準自檢 |
 | [`probes/`](probes/) | 五支最小可跑的抓資料範例程式（Python），照著改就能用 |
+| [`example-workflow/`](example-workflow/) | **完整流程範例**——一趟從拷問到結論報告的實跑紀錄，含 AI 出錯被抓到的實例。看流程，不要照抄題目 |
 
 ## 開課前一定要做的三件事
 
