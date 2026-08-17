@@ -28,8 +28,8 @@
 - **下一步**：明天畫圖標事件日。
 
 ### 11:48　收工
-- 程式、PLAN、TASK、MEMORY 都 push 了。
-- **明天第一步**：把倉庫拉回 Colab，接著做關卡三（畫圖標事件日）。
+- 程式、PLAN、TASK、MEMORY 都 push 了，順手寫了 SETUP.md 與 HANDOFF.md。
+- **明天第一步**：照 SETUP.md 重建環境，接著做關卡三（畫圖標事件日）。
 
 ---
 
