@@ -31,7 +31,7 @@
 | [`templates/`](templates/) | `PLAN.md`／`TASK.md`／`MEMORY.md` 三個範本，複製就能用 |
 | [`reference/`](reference/) | 資料源速查（含各家的坑）、EvoCode 速查、結論報告格式、四判準自檢 |
 | [`probes/`](probes/) | 五支最小可跑的抓資料範例程式（Python），照著改就能用 |
-| [`handouts/`](handouts/) | **簡報與講義 PDF**——兩份上課簡報（演講 43 頁、實作 26 頁）＋兩份文字講義 |
+| [`handouts/`](handouts/) | **上課簡報 PDF**——演講段 43 頁、實作段 26 頁，可下載列印 |
 | [`example-workflow/`](example-workflow/) | **完整流程範例**——一趟從拷問到結論報告的實跑紀錄，含 AI 出錯被抓到的實例。看流程，不要照抄題目 |
 
 ## 開課前一定要做的四件事
